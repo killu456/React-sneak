@@ -1,22 +1,27 @@
 import Card from "../components/Card";
 import Info from  "../components/Info";
+import { useSelector } from "react-redux";
 
 
 import React from "react";
 
-function Fav({Favorite}){
+function Fav({addToCart,addToFav}){
+    const Favorites = useSelector(state => state.Favorites.Favorites)
+
     return(
         <>
-        {Favorite.length > 0 ?
+        {Favorites.length > 0 ?
          <>
         <h1>Мои закладки</h1>
         <div className="ds-f">
-          {Favorite.map((obj,index) => 
+          {Favorites.map((obj,index) => 
             <Card
             key = {index}
             title = {obj.title} 
             url = {obj.url} 
             price = {obj.price}
+            addToCart={addToCart}
+            addToFav={addToFav}
             />
           )}
         </div>

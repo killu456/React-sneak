@@ -4,7 +4,7 @@ const defaultState = {
 }
 
 const GET_FAVORITES = 'GET_FAVORITES';
-const DEL_FAVORITE = 'GET_FAVORITE';
+const DEL_FAVORITE = 'DEL_FAVORITE';
 
 export const favoritesReducer = (state = defaultState,action) =>{
     switch(action.type){

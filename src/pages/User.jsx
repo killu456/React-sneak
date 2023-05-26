@@ -20,7 +20,7 @@ function User(){
             </form>
         </div>
 
-        <div className="login" onClick={() => GetSneak()}>
+        <div className="login" /*onClick={() => GetSneak()}*/>
             <form>
                 <label  aria-hidden="true">Login</label>
                 <input type="email" name="email" placeholder="Email" required=""/>

@@ -1,22 +1,27 @@
 import Card from "../components/Card";
 import React from "react";
 import ContentLoader from "react-content-loader";
+import { useDispatch, useSelector } from "react-redux";
+import { SearchAction } from "../store/getSneakers";
 
-function SneakersItems({isLoading,Items}){
-    const [searchValue,setSearchValue] = React.useState('');
+function SneakersItems({addToCart,addToFav}){
+    const dispatch = useDispatch()
+    const isLoading = useSelector(state => state.Sneakers.Isloading)
+    const Sneakers = useSelector(state => state.Sneakers.Sneakers)
+    const SearchValue = useSelector(state => state.Sneakers.Search)
 
     function onChangeSearchInput(event){
-        setSearchValue(event.target.value);
+        dispatch(SearchAction(event.target.value));
     }
 
 
     return(
     <>
-        <h1>{searchValue ? `Поиск по запросу: "${searchValue}"`: "Все кроссовки"}</h1>
+        <h1>{SearchValue ? `Поиск по запросу: "${SearchValue}"`: "Все кроссовки"}</h1>
         <div className="search-block">
             <img src="/img/search.png" width={18} height={18} alt="Search" />
-            <input onChange={onChangeSearchInput} placeholder="Поиск..."  value = {searchValue}/>
-            {searchValue ? <img onClick = {()=> setSearchValue('')} className="clearSearch" src = "/img/btn-remove.png" alt = "clear"/> : undefined}
+            <input onChange={onChangeSearchInput} placeholder="Поиск..."  value = {SearchValue}/>
+            {SearchValue ? <img onClick = {()=> dispatch(SearchAction(''))} className="clearSearch" src = "/img/btn-remove.png" alt = "clear"/> : undefined}
         </div>
 
     <div className="ds-f">
@@ -42,12 +47,14 @@ function SneakersItems({isLoading,Items}){
     
         :
 
-      Items.filter(obj => obj.title.toLowerCase().includes(searchValue.toLowerCase())).map((obj,index)=> 
+        Sneakers.filter(obj => obj.title.toLowerCase().includes(SearchValue.toLowerCase())).map((obj,index)=> 
           <Card 
           key = {index}
           title = {obj.title} 
           url = {obj.url} 
           price = {obj.price}
+          addToCart = {addToCart}
+          addToFav={addToFav}
           /> )
           
     }

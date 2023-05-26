@@ -4,31 +4,42 @@ import Info from "../components/Info";
 
 import React from "react";
 import axios from "axios";
+import {useDispatch, useSelector } from "react-redux";
+import {AddOrderAction, GetOrdersAction } from "../store/getCartOrders";
 
 function Drawer(props) {
-  const [clickButton,setClickButton] = React.useState(false);
+  
+  const Items = useSelector(state => state.Items.Items) 
+  const ClickButton = useSelector(state => state.Orders.ClickButton)
+  const dispatch = useDispatch();
 
-  const Price = props.items.reduce((acc,obj)=> acc+=obj.price,0);
+
+  const Price = Items.reduce((acc,obj)=> acc+=obj.price,0);
   const Order = Math.floor(Math.random() * 100000);
 
 
   function ClickBut(){
-      setClickButton(!clickButton)
-      for(let i = 0;i < props.items.length;i++){
-          props.addToCart(props.items[i]);  
+      for(let i = 0;i < Items.length;i++){
+          props.addToCart(Items[i]);  
       }
-      axios.post("https://645d3ef1250a246ae31b9fbb.mockapi.io/orders",{order:Order,orders : props.items});
+      const {data} = axios.post("https://645d3ef1250a246ae31b9fbb.mockapi.io/orders",{order:Order,orders : Items});
+      dispatch(GetOrdersAction([data]))
+      dispatch(AddOrderAction())
   }
 
+  function ClickCartRemove(){
+    props.onClickCartRemove();
+    dispatch(AddOrderAction())
+  }
   
 
   return (
     <div className="overlay">
       <div className="drawer">
         <h2>
-          Корзина <img onClick = {props.onClickCartRemove} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
+          Корзина <img onClick = {ClickCartRemove} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
         </h2>
-        {clickButton ?
+        {ClickButton ?
 
         <Info 
           Title = {`Ваш заказ #${Order} скоро будет передан курьерской доставке`}
@@ -36,23 +47,24 @@ function Drawer(props) {
           Url = {"/img/complete.jpg"}
           W = {83}
           H = {120}
-          onRemove = {props.onClickCartRemove}
+          onRemove = {ClickCartRemove}
         />
 
         :
         <>
 
-        {props.items.length > 0 ? 
+        {Items.length > 0 ? 
 
         <>
         <div className="items">
-          {props.items.map((obj,index)=> 
+          {Items.map((obj,index)=> 
               <CardInBasket 
               key = {index}
               id = {obj.id}
               title = {obj.title}
               url = {obj.url}
               price = {obj.price}
+              addToCart={props.addToCart}
               />
           )}
         </div>

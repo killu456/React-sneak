@@ -1,15 +1,16 @@
 import React from "react";
-import { AppContext } from "../App";
+import { useSelector ,useDispatch} from "react-redux";
 
-function Card( {title, url, price}){
-    const {cartItems,Favorite,addToCart,addToFav} = React.useContext(AppContext);
 
+function Card({title, url, price,addToCart,addToFav}){
+    const Items = useSelector(state => state.Items.Items)
+    const Favorites = useSelector(state => state.Favorites.Favorites)
 
     const [Plus,setPlus] = React.useState(false);
     const [Like,setLike] = React.useState(false);
 
-    if(cartItems.find((prev) => prev.title === title && !Plus ))setPlus(!Plus);
-    if(Favorite.find((prev) => prev.title === title && !Like ))setLike(!Like);
+    if(Items.find((prev) => prev.title === title && !Plus ))setPlus(!Plus);
+    if(Favorites.find((prev) => prev.title === title && !Like ))setLike(!Like);
     
 
     function addCartPlus(){
@@ -35,7 +36,7 @@ function Card( {title, url, price}){
             <b> {`${price} руб`}</b>
         </div>
         <button className="button">
-        <img onClick = {()=> {addCartPlus()}} width={32} height={32} src= {cartItems.find((prev) => prev.title === title) ? "/img/addPlus.png" : "/img/plus.png"} alt="Plus" />
+        <img onClick = {()=> {addCartPlus()}} width={32} height={32} src = {Items.find((prev) => prev.title === title) ? "/img/addPlus.png" : "/img/plus.png"} alt="Plus" />
         </button>
     </div>
     </div>

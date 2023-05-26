@@ -1,28 +1,31 @@
+import { useSelector,useDispatch } from "react-redux";
 import Card from "../components/Card";
 import Info from  "../components/Info";
 import axios from "axios";
 
 
 import React from "react";
+import { GetOrdersAction } from "../store/getCartOrders";
 
 function Orders(){
-    const [cartOrders,setCartOrders] = React.useState([]);
+    const dispatch = useDispatch();
+    const CartOrders = useSelector(state => state.Orders.CartOrders)
 
     React.useEffect( ()=> {
         async function fetchdata(){
-          const userOrders = await axios.get('https://645d3ef1250a246ae31b9fbb.mockapi.io/orders');
-          setCartOrders(userOrders.data);
+          const {data}= await axios.get('https://645d3ef1250a246ae31b9fbb.mockapi.io/orders');
+          dispatch(GetOrdersAction(data));
         }
         fetchdata();
     },[]);
 
     return(
         <>
-        {cartOrders.length > 0  ? 
+        {CartOrders.length > 0  ? 
             <>
             <h1>Мои заказы</h1>
             <div className="ds-f">
-                {cartOrders.map((item) =>
+                {CartOrders.map((item) =>
                     <>
                     <h3>Заказ #{item.order}</h3>
                     <div className="block">

@@ -2,7 +2,7 @@
 const defaultState = {
     Sneakers:[],
     Isloading:true,
-    Search: "",
+    Search:  "",
 }
 
 const GET_SNEAKERS = 'GET_SNEAKERS';
@@ -13,7 +13,7 @@ export const sneakersReducer = (state = defaultState,action) =>{
         case GET_SNEAKERS:
                 return {...state,Sneakers:[...state.Sneakers,...action.payload],Isloading:false}
         case SEARCH:
-                return {...state,SearchValue:action.payload}
+                return {...state,Search:action.payload}
         default:
             return state;
     }
