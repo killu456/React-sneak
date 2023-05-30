@@ -6,13 +6,14 @@ import React from "react";
 import axios from "axios";
 import {useDispatch, useSelector } from "react-redux";
 import {AddOrderAction, GetOrdersAction } from "../store/getCartOrders";
+import { addToCard } from "../asyncAction/addCard";
+import { RepCartOpenAction } from "../store/getItems";
 
 function Drawer(props) {
+  const dispatch = useDispatch();
   
   const Items = useSelector(state => state.Items.Items) 
   const ClickButton = useSelector(state => state.Orders.ClickButton)
-  const dispatch = useDispatch();
-
 
   const Price = Items.reduce((acc,obj)=> acc+=obj.price,0);
   const Order = Math.floor(Math.random() * 100000);
@@ -20,15 +21,14 @@ function Drawer(props) {
 
   function ClickBut(){
       for(let i = 0;i < Items.length;i++){
-          props.addToCart(Items[i]);  
+          dispatch(addToCard(Items[i],Items));  
       }
-      const {data} = axios.post("https://645d3ef1250a246ae31b9fbb.mockapi.io/orders",{order:Order,orders : Items});
-      dispatch(GetOrdersAction([data]))
+      axios.post("https://645d3ef1250a246ae31b9fbb.mockapi.io/orders",{order:Order,orders : Items});
       dispatch(AddOrderAction())
   }
 
   function ClickCartRemove(){
-    props.onClickCartRemove();
+    dispatch(RepCartOpenAction())
     dispatch(AddOrderAction())
   }
   
@@ -37,7 +37,7 @@ function Drawer(props) {
     <div className="overlay">
       <div className="drawer">
         <h2>
-          Корзина <img onClick = {ClickCartRemove} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
+          Корзина <img onClick = {() => dispatch(RepCartOpenAction())} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
         </h2>
         {ClickButton ?
 
@@ -64,7 +64,6 @@ function Drawer(props) {
               title = {obj.title}
               url = {obj.url}
               price = {obj.price}
-              addToCart={props.addToCart}
               />
           )}
         </div>
@@ -101,7 +100,7 @@ function Drawer(props) {
               Url = {"/img/empty-cart.jpg"}
               W = {120}
               H = {120}
-              onRemove = {props.onClickCartRemove}
+              onRemove = {() => dispatch(RepCartOpenAction())}
             />
         }
       </>

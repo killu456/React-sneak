@@ -1,8 +1,11 @@
 import React from "react";
 import { useSelector ,useDispatch} from "react-redux";
+import { addToFavorites } from "../asyncAction/addFav";
+import { addToCard } from "../asyncAction/addCard";
 
 
-function Card({title, url, price,addToCart,addToFav}){
+function Card({title, url, price}){
+    const dispatch = useDispatch()
     const Items = useSelector(state => state.Items.Items)
     const Favorites = useSelector(state => state.Favorites.Favorites)
 
@@ -14,12 +17,12 @@ function Card({title, url, price,addToCart,addToFav}){
     
 
     function addCartPlus(){
-        addToCart({title,url,price})
+        dispatch(addToCard({title,url,price},Items))
         setPlus(!Plus);
     }
 
     function addCartLike(){
-        addToFav({title,url,price})
+        dispatch(addToFavorites({title,url,price},Favorites))
         setLike(!Like)
     }
 

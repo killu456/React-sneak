@@ -4,7 +4,7 @@ import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchAction } from "../store/getSneakers";
 
-function SneakersItems({addToCart,addToFav}){
+function SneakersItems(){
     const dispatch = useDispatch()
     const isLoading = useSelector(state => state.Sneakers.Isloading)
     const Sneakers = useSelector(state => state.Sneakers.Sneakers)
@@ -53,8 +53,6 @@ function SneakersItems({addToCart,addToFav}){
           title = {obj.title} 
           url = {obj.url} 
           price = {obj.price}
-          addToCart = {addToCart}
-          addToFav={addToFav}
           /> )
           
     }

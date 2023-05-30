@@ -9,15 +9,16 @@ import { GetOrdersAction } from "../store/getCartOrders";
 
 function Orders(){
     const dispatch = useDispatch();
-    const CartOrders = useSelector(state => state.Orders.CartOrders)
-
+    
     React.useEffect( ()=> {
         async function fetchdata(){
-          const {data}= await axios.get('https://645d3ef1250a246ae31b9fbb.mockapi.io/orders');
+          const {data} = await axios.get('https://645d3ef1250a246ae31b9fbb.mockapi.io/orders')
           dispatch(GetOrdersAction(data));
         }
         fetchdata();
     },[]);
+
+    const CartOrders = useSelector(state => state.Orders.CartOrders)
 
     return(
         <>

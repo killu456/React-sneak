@@ -1,6 +1,5 @@
 const defaultState = {
     Favorites:[],
-    Like:false,
 }
 
 const GET_FAVORITES = 'GET_FAVORITES';

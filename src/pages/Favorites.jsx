@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import React from "react";
 
-function Fav({addToCart,addToFav}){
+function Fav(){
     const Favorites = useSelector(state => state.Favorites.Favorites)
 
     return(
@@ -20,8 +20,6 @@ function Fav({addToCart,addToFav}){
             title = {obj.title} 
             url = {obj.url} 
             price = {obj.price}
-            addToCart={addToCart}
-            addToFav={addToFav}
             />
           )}
         </div>
