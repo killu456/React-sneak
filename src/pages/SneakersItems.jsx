@@ -3,6 +3,8 @@ import React from "react";
 import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchAction } from "../store/getSneakers";
+import Info from "../components/Info";
+import { RepCartOpenAction } from "../store/getItems";
 
 function SneakersItems(){
     const dispatch = useDispatch()
@@ -53,8 +55,8 @@ function SneakersItems(){
           title = {obj.title} 
           url = {obj.url} 
           price = {obj.price}
-          /> )
-          
+          /> 
+        )   
     }
       
     </div>

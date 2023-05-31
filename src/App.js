@@ -34,14 +34,6 @@ fetchData()
 },[])
  
 return(
-  <>
-        <div class = 'toggle-switch'>
-            <label className="Label">
-                <input className="Input" type = 'checkbox'/>
-                <span class = 'slider'></span>
-            </label>
-        </div>
-
 
  <div className="wrapper">
      
@@ -70,7 +62,6 @@ return(
         </Routes>
       </div>
     </div>
-    </>
     );
 }
 

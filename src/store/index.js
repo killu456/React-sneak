@@ -4,12 +4,14 @@ import thunk from "redux-thunk";
 import { itemsReducer } from "./getItems";
 import { favoritesReducer } from "./getFavorites";
 import { ordersReducer } from "./getCartOrders";
+import { ThemeReducer } from "./RTheme";
 
 const rootReducer = combineReducers({
     Sneakers:sneakersReducer,
     Items:itemsReducer,
     Favorites:favoritesReducer,
     Orders:ordersReducer,
+    Theme:ThemeReducer,
 })
 
 

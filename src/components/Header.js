@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { RepCartOpenAction } from "../store/getItems";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
+import { RepThemeAction } from "../store/RTheme";
 
 function Header(){
   const dispatch = useDispatch()
+  const Theme = useSelector(state => state.Theme.ThemeDL)
     return(
     <header>
     <div>
@@ -36,6 +38,8 @@ function Header(){
         </Link>
       </li>
     </ul>
+    <button className="moon-sun" onClick={() => dispatch(RepThemeAction()) }><img width={70} height={70} src= {Theme? "img/moon.png":"img/sun.png"}/></button>
+    
   </header>);
 }
 
