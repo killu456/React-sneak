@@ -35,6 +35,7 @@ function Drawer(props) {
 
   return (
     <div className="overlay">
+       
       <div className="drawer">
         <h2>
           Корзина <img onClick = {() => dispatch(RepCartOpenAction())} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
@@ -44,7 +45,7 @@ function Drawer(props) {
         <Info 
           Title = {`Ваш заказ #${Order} скоро будет передан курьерской доставке`}
           Paragraph = {"Заказ оформлен!"}
-          Url = {"/img/complete.jpg"}
+          Url = {"/img/complete.png"}
           W = {83}
           H = {120}
           onRemove = {ClickCartRemove}
@@ -97,7 +98,7 @@ function Drawer(props) {
             <Info 
               Title = {"Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."}
               Paragraph = {"Корзина пустая"}
-              Url = {"/img/empty-cart.jpg"}
+              Url = {"/img/empty-cart.png"}
               W = {120}
               H = {120}
               onRemove = {() => dispatch(RepCartOpenAction())}
@@ -107,6 +108,7 @@ function Drawer(props) {
         }
   
       </div>
+      <div className="remove" onClick={() => dispatch(RepCartOpenAction())}></div>
     </div>
   );
 }

@@ -3,7 +3,10 @@ body {
   font-family: 'Inter', system-ui;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #e7f6ff;
+  /*background-color: #e7f6ff;*/
+  background-color:#9b9b9b;
+  color:white;
+
 }
 
 code {
@@ -14,12 +17,18 @@ code {
 
 /*Область с основным контентом страницы*/
 .wrapper {
-  background: #ffffff;
+  /*background: #ffffff;*/
+  background: #333332;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
   max-width: 1080px;
   margin: 50px auto;
 }
+
+.remove{
+  height: 100%;
+}
+
 /*-------------------*/
 
 /*Заголовок*/
@@ -71,7 +80,6 @@ header div:first-child{
 /*Карточка*/
 .card {
   border: 1px solid #d9d9d9;
-  background-color: white;
   padding: 30px;
   width: 220px;
   border-radius: 40px;
@@ -83,7 +91,7 @@ header div:first-child{
 .card:hover{
   box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.06);
   transform: translateY(-5px);
-  background-color: white;
+  background-color: #2f2e2e;
   transition: 0.5s;
 }
 
@@ -104,18 +112,6 @@ header div:first-child{
 
 /*-----------------------*/
 
-
-/*кнопка добавить товар*/
-.button {
-  background: #ffffff;
-  border: 1px solid white;
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 32px;
-  width: 32px;
-  cursor: pointer;
-}
-/*-------------*/
 
 /*поле покупок и избранные*/
 ul{
@@ -184,6 +180,7 @@ li {
   font-size: 16px;
   width: 200px;
   outline:none;
+  background: #333332;
 }
 
 .search-block img:first-child{
@@ -220,7 +217,8 @@ li {
   width: 420px;
   height: 100%;
   right: 0;
-  background: #ffffff;
+  /*background: #ffffff;*/
+  background: #333333;
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
   padding: 30px;
 
@@ -428,7 +426,6 @@ label{
 form input{
   width: 60%;
   height: 10%;
-  background: #e0dede;
   justify-content: center;
   display: flex;
   margin: 20px auto;
@@ -478,4 +475,72 @@ form input{
 #chk:checked ~ .signup label{
   transform: scale(.6);
 }
+
+
+
+:root {
+  --light: #d8dbe0;
+  --dark: rgb(31, 29, 29);
+  --link: rgb(27, 129, 112);
+  --link-hover: rgb(24, 94, 82);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+.toggle-switch {
+  position: absolute;
+  width: 100px;
+}
+
+.Label {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  background-color: var(--dark);
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.Input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  transition: 0.3s;
+}
+
+.Input:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  width: 35px;
+  height: 35px;
+  border-radius: 25px;
+  box-shadow: inset 14px -4px 0px 0px var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+.Input:checked ~ .slider::before {
+  transform: translateX(47px);
+  background-color: var(--dark);
+  box-shadow: none;
+}
+
 

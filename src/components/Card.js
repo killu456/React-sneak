@@ -38,9 +38,7 @@ function Card({title, url, price}){
             <span>Цена:</span>
             <b> {`${price} руб`}</b>
         </div>
-        <button className="button">
         <img onClick = {()=> {addCartPlus()}} width={32} height={32} src = {Items.find((prev) => prev.title === title) ? "/img/addPlus.png" : "/img/plus.png"} alt="Plus" />
-        </button>
     </div>
     </div>
     );
