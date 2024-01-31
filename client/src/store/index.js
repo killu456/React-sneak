@@ -1,19 +1,21 @@
 import { applyMiddleware, createStore ,combineReducers} from "redux";
-import { sneakersReducer } from "./getSneakers";
+import { sneakersReducer } from "./SneakersReducer";
 import thunk from "redux-thunk";
-import { itemsReducer } from "./getItems";
-import { favoritesReducer } from "./getFavorites";
-import { ordersReducer } from "./getCartOrders";
+import { basketReducer } from "./BasketReducer";
+import { favoritesReducer } from "./FavoritesReducer";
+import { ordersReducer } from "./OrdersReducer";
 import { ThemeReducer } from "./RTheme";
 import userReducer from "./userReducer";
+import AdminReducer from "./AdminReducer";
 
 const rootReducer = combineReducers({
     Sneakers:sneakersReducer,
-    Items:itemsReducer,
+    Basket:basketReducer,
     Favorites:favoritesReducer,
     Orders:ordersReducer,
     Theme:ThemeReducer,
     UserR:userReducer,
+    AdminR:AdminReducer,
 })
 
 

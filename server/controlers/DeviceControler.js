@@ -1,15 +1,14 @@
-import { Device ,DeviceInfo} from "../models/models.js";
-import { ApiError } from "../Error/ApiError.js";
-import path from 'node:path';
-
+const { Device ,DeviceInfo} = require( "../models/models");
+const ApiError = require("../Error/ApiError");
 const uuid = require('uuid');
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const path = require('path');
+const { where } = require("sequelize");
 
 
-export class DeviceControler{
+
+
+
+class DeviceControler{
     async create(req ,res,next){
         try {
             let {name,price,info} = req.body
@@ -60,4 +59,33 @@ export class DeviceControler{
             res.status(500).json(error)     
         }
     }
+
+    async update(req,res,next){
+        try{
+            let item = {}
+            let {id,name,price} = req.body
+
+            if(req.files?.img){
+                let {img} = req.files
+                let fileName = uuid.v4() + '.jpg';
+                img.mv(path.resolve(__dirname, '..', 'static', fileName))
+                item.img = fileName
+            }
+
+            if(String(name).length > 2) item.name = name
+
+            if(Number(price) > 0) item.price = price
+
+            console.log(item)
+            if(item.price || item.img || item.name){
+                const D = await Device.update(item,{where:{id:id}})
+                return res.json(D)    
+            }
+        } catch (error) {
+            console.log(error.message)
+            return next(ApiError.badRequest(error.message))  
+        } 
+    }
 }
+
+module.exports = new DeviceControler()

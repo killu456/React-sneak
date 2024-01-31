@@ -1,22 +1,20 @@
-import 'dotenv/config'
-import  Express  from 'express'
-import { sq } from './db.js'
-import { User,Device,Rating,Basket,BasketDevice} from './models/models.js'
-import fileUpload from 'express-fileupload'
-import ErrorHandlingMiddleware from './Middleware/ErrorHandlingMiddleware'
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { router } from './routers/index';
-const cors = require('cors');
+require("dotenv").config()
+const express = require('express')
+const sq = require("./db")
+const modules = require("./models/models")
+const fileUpload  = require('express-fileupload')
+const cors = require('cors')
+const ErrorHandlingMiddleware = require('./Middleware/ErrorHandlingMiddleware')
+const path =  require('node:path');
+const router = require("./routers/index")
+
 
 const PORT = process.env.PORT
-const app = Express()
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const app = express()
 
-app.use(cors());
-app.use(Express.json());
-app.use(Express.static(path.resolve(__dirname,'static')));
+app.use(cors())
+app.use(express.json());
+app.use(express.static(path.resolve(__dirname,'static')));
 app.use(fileUpload({}));
 app.use('/api',router);
 app.use(ErrorHandlingMiddleware);

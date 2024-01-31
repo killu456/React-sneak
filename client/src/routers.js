@@ -1,6 +1,4 @@
-
-import { Admin } from "./pages/Admin"
-import { Basket } from "./pages/Basket"
+import { Admin } from "./pages/AdminPage/Admin"
 import Fav from "./pages/Favorites"
 import Orders from "./pages/Orders"
 import SneakersItems from "./pages/SneakersItems"
@@ -15,26 +13,22 @@ export const authRouters = [
         Component:Admin
     },
     {
-        path:BASKET_ROUTE,
-        Component:Basket
-    },
-    {
         path:ORDER_ROUTE,
         Component:Orders
     },
     {
         path:FAVORITE_ROUTE,
         Component:Fav
-    }
+    },
+    {
+        path:SHOP_ROUTE,
+        Component:SneakersItems
+    },
 
 ]
 
 
 export const publicRouters = [
-    {
-        path:SHOP_ROUTE,
-        Component:SneakersItems
-    },
     {
         path:REGISTRATION_ROUTE,
         Component:User

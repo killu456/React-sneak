@@ -3,34 +3,55 @@ import Info from "../components/Info";
 
 
 import React from "react";
-import axios from "axios";
 import {useDispatch, useSelector } from "react-redux";
-import {AddOrderAction, GetOrdersAction } from "../store/getCartOrders";
-import { addToCard } from "../asyncAction/addCard";
-import { RepCartOpenAction } from "../store/getItems";
+import {AddOrderAction} from "../store/OrdersReducer";
+import { GetBasketItemsAction, RepBasketOpenAction} from "../store/BasketReducer";
+import { SHOP_ROUTE } from "../utils/constants";
+import { deleteBasketDevice, fetchBasketDevices } from "../http/basketApi";
+import { createOrderDevice } from "../http/orderApi";
+import { fetchItems2 } from "../Functions/fetchItems";
+
 
 function Drawer(props) {
   const dispatch = useDispatch();
   
-  const Items = useSelector(state => state.Items.Items) 
+  const Items = useSelector(state => state.Basket.BasketItems) 
+  const {Sneakers} = useSelector(state => state.Sneakers) 
+  const {User,active} = useSelector(state => state.UserR) 
   const ClickButton = useSelector(state => state.Orders.ClickButton)
 
   const Price = Items.reduce((acc,obj)=> acc+=obj.price,0);
   const Order = Math.floor(Math.random() * 100000);
 
+  function fetchBasketItems(data){
+    let arr = [];
+    data.forEach(e => {
+          let s = Sneakers.filter((obj) => e.deviceId === obj.id)
+          if(s.length) arr = [...arr,{...s[0],ItemId:e.id}]
+    });  
+    if(arr.length) dispatch(GetBasketItemsAction(arr)) 
+  }
+
+  React.useEffect(() => {
+      if(User.id) fetchBasketDevices(User.id).then(data => fetchBasketItems(data))
+  },[])
+
 
   function ClickBut(){
-      for(let i = 0;i < Items.length;i++){
-          dispatch(addToCard(Items[i],Items));  
-      }
-      axios.post("https://645d3ef1250a246ae31b9fbb.mockapi.io/orders",{order:Order,orders : Items});
+      createOrderDevice({userId:User.id,orders:Items})
       dispatch(AddOrderAction())
+      dispatch(GetBasketItemsAction([]))
+
+      Items.forEach(e => {
+        deleteBasketDevice(e.ItemId)
+      })
   }
 
   function ClickCartRemove(){
-    dispatch(RepCartOpenAction())
+    dispatch(RepBasketOpenAction())
     dispatch(AddOrderAction())
   }
+
   
 
   return (
@@ -38,7 +59,7 @@ function Drawer(props) {
        
       <div className="drawer">
         <h2>
-          Корзина <img onClick = {() => dispatch(RepCartOpenAction())} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
+          Корзина <img onClick = {() => dispatch(RepBasketOpenAction())} className="cu-p" src="./img/btn-remove.png" alt="Remove" />
         </h2>
         {ClickButton ?
 
@@ -49,6 +70,7 @@ function Drawer(props) {
           W = {83}
           H = {120}
           onRemove = {ClickCartRemove}
+          pathRoute = {SHOP_ROUTE}
         />
 
         :
@@ -61,9 +83,9 @@ function Drawer(props) {
           {Items.map((obj,index)=> 
               <CardInBasket 
               key = {index}
-              id = {obj.id}
-              title = {obj.title}
-              url = {obj.url}
+              id = {obj.ItemId}
+              name = {obj.name}
+              url = {obj.img}
               price = {obj.price}
               />
           )}
@@ -101,14 +123,15 @@ function Drawer(props) {
               Url = {"/img/empty-cart.png"}
               W = {120}
               H = {120}
-              onRemove = {() => dispatch(RepCartOpenAction())}
+              onRemove = {() => dispatch(RepBasketOpenAction())}
+              pathRoute = {SHOP_ROUTE}
             />
         }
       </>
         }
   
       </div>
-      <div className="remove" onClick={() => dispatch(RepCartOpenAction())}></div>
+      <div className="remove" onClick={() => dispatch(RepBasketOpenAction())}></div>
     </div>
   );
 }

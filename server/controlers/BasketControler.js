@@ -1,13 +1,14 @@
-import { Basket,BasketDevice } from "../models/models.js";
+const { Basket,BasketDevice } = require( "../models/models");
 
-export class BasketControler {
+class BasketControler {
     async create(req,res){
         try {
             const {userId,deviceId} = req.body
-            const B = await Basket.findAll({where:{userId}})
-            const BasketD = await BasketDevice.create({basketId:B[0].dataValues.id,deviceId})
+            const B = await Basket.findOne({where:{userId}})
+            const BasketD = await BasketDevice.create({basketId:B.dataValues.id,deviceId})
             return res.json(BasketD)
         } catch (error) {
+            console.log(error)
             res.status(500).json(error)        
         } 
     }
@@ -22,11 +23,14 @@ export class BasketControler {
         }
     }
 
+
     async getAll(req,res){
         const {userId} = req.query
-        const B = await Basket.findAll({where:{userId}})
-        const Baskets = await BasketDevice.findAll({where:{basketId:B[0].dataValues.id}})  
-        return res.json(Baskets)    
+        const B = await Basket.findOne({where:{userId}})
+        const Baskets = await BasketDevice.findAll({where:{basketId:B?.dataValues?.id}})
+        return res.json(Baskets) 
     }
 }
+
+module.exports = new BasketControler()
 

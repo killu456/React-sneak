@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import { RepCartOpenAction } from "../store/getItems";
+import { RepBasketOpenAction, RepCartOpenAction } from "../store/BasketReducer";
 import { useDispatch, useSelector} from "react-redux";
 import { RepThemeAction } from "../store/RTheme";
-import { FAVORITE_ROUTE, ORDER_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "../utils/constants";
+import { ADMIN_ROUTE, FAVORITE_ROUTE, ORDER_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "../utils/constants";
 
 function Header(){
   const dispatch = useDispatch()
   const Theme = useSelector(state => state.Theme.ThemeDL)
+  const {IsAdmin} = useSelector(state => state.AdminR)
     return(
     <header>
-    <div>
+      <div>
       <Link to = {SHOP_ROUTE}>
           <img width={40} height={40} src="/img/logo.png" alt = "logo"/>
       </Link>
@@ -18,8 +19,15 @@ function Header(){
         <p>Магазин лучших кроссовок</p>
       </div>
     </div>
+      {IsAdmin ?
+      <div>
+        <Link to = {ADMIN_ROUTE}>
+          Панель администрирования
+        </Link>  
+      </div>
+      :
     <ul>
-      <li onClick = {() => dispatch(RepCartOpenAction())}>
+      <li onClick = {() => dispatch(RepBasketOpenAction())}>
         <img width={22} height={22} src="/img/cart.png"  alt = "cart"/>
       </li>
       <li>
@@ -39,6 +47,7 @@ function Header(){
         </Link>
       </li>
     </ul>
+      }
     <button className="moon-sun" onClick={() => dispatch(RepThemeAction()) }><img width={70} height={70} src= {Theme? "img/moon.png":"img/sun.png"}/></button>
     
   </header>);

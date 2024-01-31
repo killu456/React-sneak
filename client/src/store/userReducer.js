@@ -1,12 +1,14 @@
 import { createAction, createReducer} from "@reduxjs/toolkit";
 
 const defaultState = {
-    IsAuth:true,
-    User:{}
+    IsAuth:false,
+    User:{},
+    active:0
 }
 
 export const ChangeIsAuth = createAction('ChangeIsAuth')
 export const AddUser = createAction('AddUser')
+export const repActive = createAction('repActive')
 
 export default createReducer(defaultState,{
     [ChangeIsAuth]:function(state){
@@ -14,6 +16,9 @@ export default createReducer(defaultState,{
     },
     [AddUser]:function(state,action){
         state.User = action.payload
-    }
+    },
+    [repActive]:function(state){
+        state.active = state.active+1
+    },
 })
 

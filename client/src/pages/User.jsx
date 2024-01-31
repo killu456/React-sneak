@@ -1,14 +1,13 @@
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { AddUser, ChangeIsAuth } from "../store/userReducer";
-import { Navigate } from "react-router-dom";
 import { login, registration } from "../http/userApi";
+import React, { useState } from "react";
+import { ChangeIsAdmin } from "../store/AdminReducer";
 
 function User(){
-    const [EmailSingUp,setEmailSingUp] = useState('');
-    const [PasswordSingUp,setPasswordSingUp] = useState('');
-
-    const [EmailLogin,setEmailLogin] = useState('');
-    const [PasswordLogin,setPasswordLogin] = useState('');
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('');
+    const [name,setName] = useState('');
 
     const dispatch = useDispatch()
 
@@ -18,25 +17,29 @@ function User(){
 
     const clickSingUp = async () => {
         try{
-            let data = await registration(Email,Password);
+            const data = await registration({name,email,password,role:"USER"});
             dispatch(ChangeIsAuth());
             dispatch(AddUser(data));
-            Navigate(SHOP_ROUTE);
+            alert("Регистрация прошла успешно!")
         }
         catch(e){
-            alert(e.response.data.message);
+            if(e.response.data.message) alert(e.response.data.message);
+            else alert(e.message)
         }
     }
 
     const clickLogin = async () => {
         try{
-            let data = await login(Email,Password);
+            const data = await login(email,password);
             dispatch(ChangeIsAuth());
             dispatch(AddUser(data));
-            Navigate(SHOP_ROUTE);
+            console.log(data)
+            alert("Авторизация прошла успешно!")
+            if(data.role == "ADMIN") dispatch(ChangeIsAdmin())
         }
         catch(e){
-            alert(e.response.data.message);
+            if(e.response.data.message) alert(e.response.data.message);
+            else alert(e.message)
         }
     }
 
@@ -47,8 +50,9 @@ function User(){
 			<div className="signup">
 				<form onSubmit = {handleSubmit} >
 					<label for="chk" aria-hidden="true">Регистрация</label>
-					<input value={EmailSingUp} onChange={ e => setEmailSingUp(e.target.value)} type="email" name="email" placeholder="Email" required=""/>
-					<input value={PasswordSingUp} onChange={ e => setPasswordSingUp(e.target.value)}  type="password" name="pswd" placeholder="Пароль" required=""/>
+                    <input  value = {name} onChange={ e => setName(e.target.value)} type="name" name="name" placeholder="Name" required=""/>
+                    <input value={email} onChange={ e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" required=""/>
+					<input value={password} onChange={ e => setPassword(e.target.value)}  type="password" name="pswd" placeholder="Пароль" required=""/>
 					<button type = "submit" onClick={() => clickSingUp()} >Регистрация</button>
 				</form>
 			</div>
@@ -56,8 +60,8 @@ function User(){
 			<div className="login">
 				<form onSubmit = {handleSubmit}>
 					<label for="chk" aria-hidden="true">Вход</label>
-					<input value = {EmailLogin} onChange={ e => setEmailLogin(e.target.value)} type="email" name="email" placeholder="Email" required=""/>
-					<input value = {PasswordLogin} onChange={ e => setPasswordLogin(e.target.value)} type="password" name="pswd" placeholder="Пароль" required=""/>
+					<input  value = {email} onChange={ e => setEmail(e.target.value)} type="email" name="email" placeholder="Email" required=""/>
+					<input value = {password} onChange={ e => setPassword(e.target.value)} type="password" name="pswd" placeholder="Пароль" required=""/>
 					<button type = "submit" onClick={() => clickLogin()} >Вход</button>
 				</form>
 			</div>

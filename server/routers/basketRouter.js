@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { BasketControler } from "../controlers/BasketControler.js";
+const  Router =  require("express");
+const BasketControler = require("../controlers/BasketControler");
 
 const router = Router();
 
